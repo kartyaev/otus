@@ -10,7 +10,7 @@ import (
 var ErrInvalidString = errors.New("invalid string")
 
 func Unpack(s string) (string, error) {
-	length := len(s)
+	length := len([]rune(s))
 	if length == 0 {
 		return "", nil
 	}
@@ -18,25 +18,31 @@ func Unpack(s string) (string, error) {
 		return "", ErrInvalidString
 	}
 	asIsNext := false
+	skipNext := false
 	result := strings.Builder{}
-	for i := 0; i < length; i++ {
-		if s[i] == '\\' && !asIsNext {
+	utf8RuneArray := []rune(s)
+	for i, el := range utf8RuneArray {
+		if skipNext {
+			skipNext = false
+			continue
+		}
+		if el == '\\' && !asIsNext {
 			asIsNext = true
 			continue
 		}
-		if asIsNext && !unicode.IsDigit(rune(s[i])) && s[i] != '\\' {
+		if asIsNext && !unicode.IsDigit(el) && el != '\\' {
 			return "", ErrInvalidString
 		}
-		if i+1 < length && unicode.IsDigit(rune(s[i+1])) {
-			if i+2 < length && unicode.IsDigit(rune(s[i+2])) {
+		if i+1 < length && unicode.IsDigit(utf8RuneArray[i+1]) {
+			if i+2 < length && unicode.IsDigit(utf8RuneArray[i+2]) {
 				return "", ErrInvalidString
 			}
-			counter, _ := strconv.Atoi(string(s[i+1]))
-			result.WriteString(strings.Repeat(string(s[i]), counter))
-			i++
+			counter, _ := strconv.Atoi(string(utf8RuneArray[i+1]))
+			result.WriteString(strings.Repeat(string(el), counter))
+			skipNext = true
 			asIsNext = false
 		} else {
-			result.WriteByte(s[i])
+			result.WriteRune(el)
 			asIsNext = false
 		}
 	}
