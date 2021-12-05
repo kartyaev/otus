@@ -18,7 +18,7 @@ func Unpack(s string) (string, error) {
 		return "", ErrInvalidString
 	}
 	asIsNext := false
-	var result = strings.Builder{}
+	result := strings.Builder{}
 	for i := 0; i < length; i++ {
 		if s[i] == '\\' && !asIsNext {
 			asIsNext = true
