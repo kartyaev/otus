@@ -36,7 +36,7 @@ func Unpack(s string) (string, error) {
 			i++
 			asIsNext = false
 		} else {
-			result.WriteRune(rune(s[i]))
+			result.WriteByte(s[i])
 			asIsNext = false
 		}
 	}
