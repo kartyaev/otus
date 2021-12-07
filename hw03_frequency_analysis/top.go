@@ -13,7 +13,7 @@ type Word struct {
 	Weight int
 }
 
-var reg = regexp.MustCompile("[^a-zA-Z0-9А-Яа-я\\-]+")
+var reg = regexp.MustCompile(`[^a-zA-Z0-9А-Яа-я\-]+`)
 
 func Top10(text string) []string {
 	if len(text) == 0 {
@@ -45,8 +45,10 @@ func getResultFromWordsSlice(wordsSlice []Word) []string {
 func convertMapToSlice(wordsMap map[string]int) []Word {
 	words := make([]Word, 0)
 	for key, elem := range wordsMap {
-		word := Word{key,
-			elem}
+		word := Word{
+			key,
+			elem,
+		}
 		words = append(words, word)
 	}
 	return words
@@ -63,7 +65,7 @@ func buildWordsMap(text string) map[string]int {
 		if mapValues[value] == 0 {
 			mapValues[value] = 1
 		} else {
-			mapValues[value] = mapValues[value] + 1
+			mapValues[value]++
 		}
 	}
 	return mapValues
@@ -75,10 +77,7 @@ func sortWords(words []Word) {
 			return true
 		} else if words[i].Weight == words[j].Weight {
 			scom := strings.Compare(words[i].Word, words[j].Word)
-			if scom < 0 {
-				return true
-			}
-			return false
+			return scom < 0
 		}
 		return false
 	})
