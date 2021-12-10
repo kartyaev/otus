@@ -24,6 +24,7 @@ var additionalText = `Белеет парус одинокой
 					А он, мятежный, просит бури,
 					Как будто в бурях есть покой!`
 
+//nolint:unused,misspell
 var linusEmail = `Hello everybody out there using minix - 
 				
 				I'm doing a (free) operating system (just a hobby, won't be big and 
@@ -42,7 +43,7 @@ var linusEmail = `Hello everybody out there using minix -
 				
 				PS. Yes - it's free of any minix code, and it has a multi-threaded fs. 
 				It is NOT protable (uses 386 task switching etc), and it probably never 
-				will support anything other than AT-harddisks, as that's all I have :-(. ` //nolint
+				will support anything other than AT-harddisks, as that's all I have :-(. `
 
 var text = `Как видите, он  спускается  по  лестнице  вслед  за  своим
 	другом   Кристофером   Робином,   головой   вниз,  пересчитывая
