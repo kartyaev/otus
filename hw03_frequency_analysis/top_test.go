@@ -24,7 +24,7 @@ var additionalText = `Белеет парус одинокой
 					А он, мятежный, просит бури,
 					Как будто в бурях есть покой!`
 
-//nolint:unused,misspell
+//nolint
 var linusEmail = `Hello everybody out there using minix - 
 				
 				I'm doing a (free) operating system (just a hobby, won't be big and 
