@@ -28,7 +28,6 @@ func Top10(text string) []string {
 
 func getResultFromWordsSlice(wordsSlice []Word) []string {
 	result := make([]string, 0, SIZE)
-
 	tempValue := Word{}
 	for _, value := range wordsSlice {
 		if len(result) == SIZE {
