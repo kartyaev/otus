@@ -42,7 +42,7 @@ var linusEmail = `Hello everybody out there using minix -
 				
 				PS. Yes - it's free of any minix code, and it has a multi-threaded fs. 
 				It is NOT protable (uses 386 task switching etc), and it probably never 
-				will support anything other than AT-harddisks, as that's all I have :-(. `
+				will support anything other than AT-harddisks, as that's all I have :-(. ` //nolint:misspell // original email
 
 var text = `Как видите, он  спускается  по  лестнице  вслед  за  своим
 	другом   Кристофером   Робином,   головой   вниз,  пересчитывая
