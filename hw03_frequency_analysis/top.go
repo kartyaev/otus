@@ -61,6 +61,9 @@ func buildWordsMap(text string) map[string]int {
 		if value == "-" {
 			continue
 		}
+		if len(value) == 0 {
+			continue
+		}
 		if mapValues[value] == 0 {
 			mapValues[value] = 1
 		} else {
