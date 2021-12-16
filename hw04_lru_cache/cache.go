@@ -9,11 +9,24 @@ type Cache interface {
 }
 
 type lruCache struct {
-	Cache // Remove me after realization.
-
 	capacity int
 	queue    List
 	items    map[Key]*ListItem
+}
+
+func (l lruCache) Set(key Key, value interface{}) bool {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (l lruCache) Get(key Key) (interface{}, bool) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (l lruCache) Clear() {
+	//TODO implement me
+	panic("implement me")
 }
 
 type cacheItem struct {
