@@ -69,7 +69,6 @@ func TestCache(t *testing.T) {
 
 		_, ok = c.Get("aac")
 		require.True(t, ok)
-
 	})
 
 	t.Run("clear cache", func(t *testing.T) {
@@ -81,9 +80,8 @@ func TestCache(t *testing.T) {
 		require.True(t, ok)
 		require.Equal(t, 100, val)
 		c.Clear()
-		val, ok = c.Get("aaa")
+		_, ok = c.Get("aaa")
 		require.False(t, ok)
-
 	})
 }
 
