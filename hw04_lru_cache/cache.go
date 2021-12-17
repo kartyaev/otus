@@ -46,8 +46,8 @@ func (l *lruCache) Set(key Key, value interface{}) bool {
 
 func (l *lruCache) Get(key Key) (interface{}, bool) {
 	l.mtx.Lock()
-	valueInMap := l.items[key]
-	if valueInMap != nil {
+	valueInMap, ok := l.items[key]
+	if ok {
 		l.queue.MoveToFront(valueInMap)
 		l.mtx.Unlock()
 		return valueInMap.Value, true
