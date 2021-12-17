@@ -35,7 +35,6 @@ func (l *list) Back() *ListItem {
 }
 
 func (l *list) PushFront(v interface{}) *ListItem {
-
 	newItem := &ListItem{v, nil, nil}
 
 	if l.first == nil {
@@ -53,7 +52,6 @@ func (l *list) PushFront(v interface{}) *ListItem {
 }
 
 func (l *list) PushBack(v interface{}) *ListItem {
-
 	newItem := &ListItem{v, nil, nil}
 
 	if l.last == nil {
