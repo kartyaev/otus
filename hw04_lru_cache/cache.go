@@ -17,50 +17,53 @@ type lruCache struct {
 	mtx      sync.Mutex
 }
 
+type cacheItem struct {
+	key   Key
+	value interface{}
+}
+
 func (l *lruCache) Set(key Key, value interface{}) bool {
 	l.mtx.Lock()
-	valueInMap := l.items[key]
-	if valueInMap != nil {
-		if valueInMap.Value == value {
-			l.queue.MoveToFront(valueInMap)
-		} else {
-			l.queue.Remove(valueInMap)
-			l.items[key] = l.queue.PushFront(value)
-		}
-		l.mtx.Unlock()
+	defer l.mtx.Unlock()
+	if element, exists := l.items[key]; exists {
+		l.queue.MoveToFront(element)
+		element.Value.(*cacheItem).value = value
 		return true
 	}
-	l.items[key] = l.queue.PushFront(value)
-	if l.queue.Len() > l.capacity {
-		lastVale := l.queue.Back()
-		l.queue.Remove(lastVale)
-		for key, value := range l.items {
-			if value == lastVale {
-				delete(l.items, key)
-			}
+
+	if l.queue.Len() == l.capacity {
+		if element := l.queue.Back(); element != nil {
+			l.queue.Remove(element)
+			delete(l.items, element.Value.(*cacheItem).key)
 		}
 	}
-	l.mtx.Unlock()
+
+	item := &cacheItem{
+		key:   key,
+		value: value,
+	}
+
+	element := l.queue.PushFront(item)
+	l.items[item.key] = element
 	return false
 }
 
 func (l *lruCache) Get(key Key) (interface{}, bool) {
 	l.mtx.Lock()
-	valueInMap, ok := l.items[key]
-	if ok {
-		l.queue.MoveToFront(valueInMap)
-		l.mtx.Unlock()
-		return valueInMap.Value, true
+	defer l.mtx.Unlock()
+	element, exists := l.items[key]
+	if !exists {
+		return nil, false
 	}
-	l.mtx.Unlock()
-	return nil, false
+	l.queue.MoveToFront(element)
+	return element.Value.(*cacheItem).value, true
 }
 
 func (l *lruCache) Clear() {
 	l.mtx.Lock()
+	defer l.mtx.Unlock()
 	l.queue = NewList()
 	l.items = make(map[Key]*ListItem, l.capacity)
-	l.mtx.Unlock()
 }
 
 func NewCache(capacity int) Cache {
