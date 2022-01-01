@@ -22,7 +22,7 @@ func Run(tasks []Task, n, m int) error {
 		var value int
 		for _, task := range tasks {
 			value = <-chBuff
-			fails = fails + value
+			fails += value
 			if fails < m {
 				chTask <- task
 			} else {
