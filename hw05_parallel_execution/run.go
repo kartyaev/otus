@@ -11,6 +11,9 @@ type Task func() error
 
 // Run starts tasks in n goroutines and stops its work when receiving m errors from tasks.
 func Run(tasks []Task, n, m int) error {
+	if m <= 0 {
+		return nil
+	}
 	wg := sync.WaitGroup{}
 	workerCount := n
 	if len(tasks) < n {
