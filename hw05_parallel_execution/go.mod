@@ -1,4 +1,4 @@
-module github.com/kartyaev/hw04_lru_cache
+module github.com/kartyaev/hw05_parallel_execution
 
 go 1.16
 

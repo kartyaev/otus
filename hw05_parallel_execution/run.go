@@ -39,12 +39,12 @@ func Run(tasks []Task, n, m int) error {
 		}
 		close(chTask)
 	}()
-	littleCounter := 0
+	startedTaskCounter := 0
 	for task := range chTask {
-		littleCounter++
+		startedTaskCounter++
 		task := task
 		wg.Add(1)
-		go func(wg *sync.WaitGroup) {
+		go func() {
 			defer wg.Done()
 			err := task()
 			if err != nil {
@@ -52,7 +52,7 @@ func Run(tasks []Task, n, m int) error {
 			} else {
 				chBuff <- 0
 			}
-		}(&wg)
+		}()
 	}
 	wg.Wait()
 	close(chBuff)
@@ -60,7 +60,7 @@ func Run(tasks []Task, n, m int) error {
 	for i := range chBuff {
 		fails += i
 	}
-	if littleCounter != len(tasks) || fails >= m {
+	if startedTaskCounter != len(tasks) || fails >= m {
 		return ErrErrorsLimitExceeded
 	}
 	return nil
