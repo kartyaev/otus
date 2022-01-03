@@ -16,7 +16,7 @@ func Run(tasks []Task, n, m int) error {
 	}
 	wg := sync.WaitGroup{}
 	workerCount := n
-	if len(tasks) < n {
+	if len(tasks) < n { // there is no reason to start more when len(tasks) workers
 		workerCount = len(tasks)
 	}
 	chTask := make(chan Task)
